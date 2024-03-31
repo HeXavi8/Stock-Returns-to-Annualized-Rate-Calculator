@@ -1,4 +1,4 @@
-import React, { useState, RefObject } from 'react';
+import React, { useState, RefObject, useEffect, useCallback } from 'react';
 import { AddCircleOutline, MailOpenOutline, TextOutline } from 'antd-mobile-icons'
 import { Card, Form, Popup, Button, Input, Stepper, DatePicker, Empty, Dialog, Space, AutoCenter } from 'antd-mobile'
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import moment from 'moment-timezone';
 import { v4 as uuidv4 } from 'uuid';
 import type { DatePickerRef } from 'antd-mobile/es/components/date-picker'
 import './index.scss'; // 导入样式文件
+import calculator from '../libs/calculator';
 
 const dateFormat = 'YYYY-MM-DD';
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -44,12 +45,14 @@ interface Props {
   ID: string,
   title: string,
   expectedDate: string,
+  expectedRate: number,
 }
 
 const TableCard: React.FC<Props> = ({
   ID = "",
   title = "",
   expectedDate = "",
+  expectedRate = 0,
 }) => {
   const date = moment().format(dateFormat);
   const { t } = useTranslation();
@@ -82,7 +85,7 @@ const TableCard: React.FC<Props> = ({
         delete editData.expectedPrice;
         editData.purchaseTime = new Date(String(editData.purchaseTime));
         form.setFieldsValue(editData);
-        // setRowPopupData(editData)
+        setRowPopupData(editData)
         setRowPopupVisible(true);
         setRowPopupType(type);
         break;
@@ -116,26 +119,45 @@ const TableCard: React.FC<Props> = ({
   // submit
   const onFinish = () => {
     const values = form.getFieldsValue()
-    console.log('values: ', values);
     if (rowPopupType === 'ADD') {
       const newRow: DataRow = {
         ID: uuidv4(),
         ...values,
         purchaseTime: moment(values.purchaseTime).format(dateFormat),
+        // @ts-ignore
+        expectedPrice: calculator({
+          type: ID,
+          startDate: values.purchaseTime,
+          endDate: expectedDate,
+          expectedYearRate: expectedRate,
+          costPrice: values.costPrice,
+          quantity: values.quantity,
+          platformFee: values.platformFee,
+        })
       };
       const newList = [...dataList, newRow];
       setDataList(newList);
       localStorage.setItem(`StockList-${ID}`, JSON.stringify(newList));
     } else if (rowPopupType === 'EDIT') {
       const index = dataList.findIndex(item => item.ID === rowPopupData.ID);
+      const editList = [...dataList];
       if (index !== -1) {
-        dataList[index] = {
+        editList[index] = {
           ...dataList[index],
           ...values,
           purchaseTime: moment(values.purchaseTime).format(dateFormat),
+           // @ts-ignore
+          expectedPrice: calculator({
+            type: ID,
+            startDate: moment(values.purchaseTime).format(dateFormat),
+            endDate: expectedDate,
+            expectedYearRate: expectedRate,
+            costPrice: values.costPrice,
+            quantity: values.quantity,
+            platformFee: values.platformFee,
+          })
         };
       }
-      const editList = [...dataList];
       setDataList(editList);
       localStorage.setItem(`StockList-${ID}`, JSON.stringify(editList));
     }
@@ -143,6 +165,23 @@ const TableCard: React.FC<Props> = ({
     form.setFieldsValue(defaultData);
     setRowPopupData(defaultData);
   }
+
+  useEffect(()=>{
+    const calculatedList = dataList.map(item => ({
+      ...item,
+      // @ts-ignore
+      expectedPrice: calculator({
+        type: ID,
+        startDate: item.purchaseTime,
+        endDate: expectedDate,
+        expectedYearRate: expectedRate,
+        costPrice: item.costPrice,
+        quantity: item.quantity,
+        platformFee: item.platformFee,
+      })
+    }))
+    setDataList(calculatedList);
+  }, [expectedDate, expectedRate])
 
   return (
     <Card className="card"
@@ -242,28 +281,28 @@ const TableCard: React.FC<Props> = ({
           <Form.Item
             name='stockName'
             label={t('Stock Name')}
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: `${t('Please Enter')}${t('Stock Name')}` }]}
           >
             <Input maxLength={10} placeholder={`${t('Please Enter')}${t('Stock Name')}`} />
           </Form.Item>
           <Form.Item
             name='costPrice'
             label={`${t('Cost Price')} (${currencyUnitMap[ID]})`}
-            rules={[{ required: true }]}
+            rules={[{ required: true,  message: `${t('Please Enter')}${t('Cost Price')}` }]}
           >
-            <Stepper min={0} digits={3} step={0.001} style={{ '--height': '36px', width: '100%' }} />
+            <Stepper min={0} digits={3} step={0.001} max={1000000} style={{ '--height': '36px', width: '100%' }} />
           </Form.Item>
           <Form.Item
             name='quantity'
             label={t('Quantity')}
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: `${t('Please Enter')}${t('Cost Price')}` }]}
           >
             <Stepper min={0} digits={0} step={1} style={{ '--height': '36px', width: '100%' }} />
           </Form.Item>
           <Form.Item
             name='purchaseTime'
             label={t('Purchase Time')}
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: `${t('Please Enter')}${t('Purchase Time')}` }]}
             trigger='onConfirm'
             arrow={true}
             onClick={(e, datePickerRef: RefObject<DatePickerRef>) => {
@@ -291,7 +330,7 @@ const TableCard: React.FC<Props> = ({
         onClose={onTipsClose}
         showCloseButton={true}
       >
-        <div className='popup-title'>{t('Fee Calculation Formula')}</div>
+        {/* <div className='popup-title'>{t('Fee Calculation Formula')}</div> */}
       </Popup>
     </Card>
   );

@@ -17,12 +17,7 @@ moment.tz.setDefault(userTimezone);
 
 // get expected rate
 const ExpectedRate = localStorage.getItem('Expected-Rate');
-// set expected rate
-const setExpectedRateLocal = debounce((value) => {
-  localStorage.setItem('Expected-Rate', String(value))
-}, 300);
-
-// Language
+// get language mode
 const Language = localStorage.getItem('Language');
 
 function App() {
@@ -34,6 +29,12 @@ function App() {
   // date
   const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false)
   const [date, setDate] = useState<string>(moment().format(dateFormat))
+
+  // set expected rate
+  const setExpectedRateByDebounce = debounce((value) => {
+    setExpectedRate(value);
+    localStorage.setItem('Expected-Rate', String(value))
+  }, 300);
 
   // switch languageMode
   const changeLanguage = () => {
@@ -91,8 +92,8 @@ function App() {
             setDatePickerVisible(true)
           }}>
             <CalendarPicker
-              min={new Date(date)}
-              max={new Date(new Date(date).setFullYear(new Date(date).getFullYear() + 2))}
+              min={new Date()}
+              max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
               visible={datePickerVisible}
               selectionMode='single'
               defaultValue={new Date(date)}
@@ -106,18 +107,17 @@ function App() {
           </Form.Item>
           <Form.Item label={`${t('Expected Annualized Rate of Return')}: ${expectedRate}%`}>
             <Slider popover step={0.1} max={100} min={0}
-              value={expectedRate}
+              defaultValue={expectedRate}
               onChange={v => {
                 const value = typeof v === 'number' ? v : 0;
-                setExpectedRate(value);
-                setExpectedRateLocal(value);
+                setExpectedRateByDebounce(value);
               }}
             />
           </Form.Item>
         </Form>
-        <TableCard title={`🇨🇳 ${t("A Share")}`} ID={"CHN"} expectedDate={date}></TableCard>
-        <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} expectedDate={date}></TableCard>
-        <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} expectedDate={date}></TableCard>
+        <TableCard title={`🇨🇳 ${t("A Share")}`} ID={"CHN"} expectedDate={date} expectedRate={expectedRate}></TableCard>
+        <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} expectedDate={date} expectedRate={expectedRate}></TableCard>
+        <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} expectedDate={date} expectedRate={expectedRate}></TableCard>
       </div>
       <div style={{ background: '#ffcfac' }}>
         <SafeArea position='bottom' />
