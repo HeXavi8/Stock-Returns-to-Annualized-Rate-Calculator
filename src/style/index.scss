@@ -1,0 +1,36 @@
+.app {
+    .navigator {
+        height: 60px;
+        .title-right {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            justify-content: flex-end;
+            .button {
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+        .title {
+            font-size: 18px;
+        }
+        .subtitle {
+            font-size: 14px;
+        }
+    }
+
+    .body {
+        padding: 20px;
+        .target {
+            .label {
+                width: 120px;
+            }
+        }
+    }
+}

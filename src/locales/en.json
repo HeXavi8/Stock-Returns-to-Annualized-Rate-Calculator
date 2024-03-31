@@ -1,6 +1,25 @@
 {
-	"title": "Stock Returns to Annualized Rate Calculator",
+	"Title": "Calculator",
+	"Subtitle": "Stock Returns to Annualized Rate",
+	"Target Date": "Target Date",
 	"US Stock": "US Stock",
 	"Hong Kong Stock": "Hong Kong Stock",
-	"A Share": "A Share"
+	"A Share": "A Share",
+	"Target Annualized Rate of Return": "Target Annualized Rate of Return",
+	"Stock Name": "Stock Name",
+	"Cost Price": "Cost Price",
+	"Quantity": "Quantity",
+	"Purchase Time": "Purchase Time",
+	"Target Price": "Target Price",
+	"Action": "Action",
+	"Please Enter": "Please Enter ",
+	"ADD": "ADD",
+	"Add": "Add",
+	"EDIT": "EDIT",
+	"Edit": "Edit",
+	"Delete": "Delete",
+	"Stock": "Stock",
+	"Platform Fee": "Platform Fee",
+	"Confirm to delete": "Confirm to delete",
+	"No Data": "No Data"
 }
