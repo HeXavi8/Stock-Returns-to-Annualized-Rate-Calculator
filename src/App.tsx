@@ -15,11 +15,11 @@ const dateFormat = 'YYYY-MM-DD';
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 moment.tz.setDefault(userTimezone);
 
-// get target rate
-const TargetRate = localStorage.getItem('Target-Rate');
-// set target rate
-const setTargetRateLocal = debounce((value) => {
-  localStorage.setItem('Target-Rate', String(value))
+// get expected rate
+const ExpectedRate = localStorage.getItem('Expected-Rate');
+// set expected rate
+const setExpectedRateLocal = debounce((value) => {
+  localStorage.setItem('Expected-Rate', String(value))
 }, 300);
 
 // Language
@@ -29,8 +29,8 @@ function App() {
   const { t, i18n } = useTranslation();
   const [languageMode, setLanguageMode] = useState<string>(Language || 'zh');
   const [enableDarkMode, setEnableDarkMode] = useState<boolean>(false)
-  // target annualized rate of return
-  const [targetRate, setTargetRate] = useState<number>(TargetRate ? parseInt(TargetRate, 10) : 0);
+  // expected annualized rate of return
+  const [expectedRate, setExpectedRate] = useState<number>(ExpectedRate ? parseInt(ExpectedRate, 10) : 0);
   // date
   const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false)
   const [date, setDate] = useState<string>(moment().format(dateFormat))
@@ -87,7 +87,7 @@ function App() {
       </NavBar>
       <div className="body">
         <Form>
-          <Form.Item label={`${t('Target Date')}`} trigger='onConfirm' arrow={true} onClick={() => {
+          <Form.Item label={`${t('Expected Date')}`} trigger='onConfirm' arrow={true} onClick={() => {
             setDatePickerVisible(true)
           }}>
             <CalendarPicker
@@ -104,20 +104,20 @@ function App() {
             />
             {date}
           </Form.Item>
-          <Form.Item label={`${t('Target Annualized Rate of Return')}: ${targetRate}%`}>
+          <Form.Item label={`${t('Expected Annualized Rate of Return')}: ${expectedRate}%`}>
             <Slider popover step={0.1} max={100} min={0}
-              value={targetRate}
+              value={expectedRate}
               onChange={v => {
                 const value = typeof v === 'number' ? v : 0;
-                setTargetRate(value);
-                setTargetRateLocal(value);
+                setExpectedRate(value);
+                setExpectedRateLocal(value);
               }}
             />
           </Form.Item>
         </Form>
-        <TableCard title={`🇨🇳 ${t("A Share")}`} ID={"CHN"} targetDate={date}></TableCard>
-        <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} targetDate={date}></TableCard>
-        <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} targetDate={date}></TableCard>
+        <TableCard title={`🇨🇳 ${t("A Share")}`} ID={"CHN"} expectedDate={date}></TableCard>
+        <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} expectedDate={date}></TableCard>
+        <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} expectedDate={date}></TableCard>
       </div>
       <div style={{ background: '#ffcfac' }}>
         <SafeArea position='bottom' />

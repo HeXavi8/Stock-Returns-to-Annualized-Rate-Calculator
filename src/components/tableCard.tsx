@@ -28,7 +28,7 @@ interface DataRow {
   quantity: number,
   purchaseTime: string | null | Date,
   platformFee: number,
-  targetPrice?: number,
+  expectedPrice?: number,
 }
 
 const defaultData: DataRow = {
@@ -43,13 +43,13 @@ const defaultData: DataRow = {
 interface Props {
   ID: string,
   title: string,
-  targetDate: string,
+  expectedDate: string,
 }
 
 const TableCard: React.FC<Props> = ({
   ID = "",
   title = "",
-  targetDate = "",
+  expectedDate = "",
 }) => {
   const date = moment().format(dateFormat);
   const { t } = useTranslation();
@@ -79,7 +79,7 @@ const TableCard: React.FC<Props> = ({
       }
       case 'EDIT': {
         const editData = data || defaultData;
-        delete editData.targetPrice;
+        delete editData.expectedPrice;
         editData.purchaseTime = new Date(String(editData.purchaseTime));
         form.setFieldsValue(editData);
         // setRowPopupData(editData)
@@ -187,7 +187,7 @@ const TableCard: React.FC<Props> = ({
                 <th>{t('Quantity')}</th>
                 <th>{t('Purchase Time')}</th>
                 <th>{t('Platform Fee')}</th>
-                <th>{t('Target Price')}</th>
+                <th>{t('Expected Price')}</th>
                 <th>{t('Action')}</th>
               </tr>
             </thead>
@@ -198,7 +198,7 @@ const TableCard: React.FC<Props> = ({
                   <td>{row.quantity}</td>
                   <td>{moment(row.purchaseTime).format(dateFormat)}</td>
                   <td>{row.platformFee}</td>
-                  <td>{row.targetPrice}</td>
+                  <td>{row.expectedPrice}</td>
                   <td>{<div className='action'>
                     <a onClick={() => {
                       handleRowPopup('EDIT', row);
