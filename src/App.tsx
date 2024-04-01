@@ -65,7 +65,7 @@ function App() {
 
   return (
     <div className="app">
-      <div style={{ background: '#ace0ff' }}>
+      <div>
         <SafeArea position="top" />
       </div>
       <NavBar className="navigator"
@@ -119,7 +119,7 @@ function App() {
         <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} expectedDate={date} expectedRate={expectedRate}></TableCard>
         <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} expectedDate={date} expectedRate={expectedRate}></TableCard>
       </div>
-      <div style={{ background: '#ffcfac' }}>
+      <div>
         <SafeArea position='bottom' />
       </div>
     </div>
