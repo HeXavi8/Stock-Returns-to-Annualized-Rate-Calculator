@@ -65,7 +65,7 @@ const TableCard: React.FC<Props> = ({
   const [dataList, setDataList] = useState<DataRow[]>(list);
   // row data popup layer
   const [rowPopupVisible, setRowPopupVisible] = useState<boolean>(false);
-  const [rowPopupType, setRowPopupType] = useState<string>('ADD');
+  const [rowPopupType, setRowPopupType] = useState<string>('Add');
   const [rowPopupData, setRowPopupData] = useState<DataRow>(defaultData);
   const [form] = Form.useForm()
   // tips popup layer
@@ -73,15 +73,15 @@ const TableCard: React.FC<Props> = ({
 
   const handleRowPopup = async (type: string, data?: DataRow) => {
     switch (type) {
-      case 'ADD': {
+      case 'Add': {
         form.setFieldsValue(defaultData);
         setRowPopupData(defaultData);
         setRowPopupVisible(true);
         setRowPopupType(type);
         break;
       }
-      case 'EDIT': {
-        const editData = data || defaultData;
+      case 'Edit': {
+        const editData = {...defaultData, ...data};
         delete editData.expectedPrice;
         editData.purchaseTime = new Date(String(editData.purchaseTime));
         form.setFieldsValue(editData);
@@ -119,7 +119,7 @@ const TableCard: React.FC<Props> = ({
   // submit
   const onFinish = () => {
     const values = form.getFieldsValue()
-    if (rowPopupType === 'ADD') {
+    if (rowPopupType === 'Add') {
       const newRow: DataRow = {
         ID: uuidv4(),
         ...values,
@@ -138,7 +138,7 @@ const TableCard: React.FC<Props> = ({
       const newList = [...dataList, newRow];
       setDataList(newList);
       localStorage.setItem(`StockList-${ID}`, JSON.stringify(newList));
-    } else if (rowPopupType === 'EDIT') {
+    } else if (rowPopupType === 'Edit') {
       const index = dataList.findIndex(item => item.ID === rowPopupData.ID);
       const editList = [...dataList];
       if (index !== -1) {
@@ -196,7 +196,7 @@ const TableCard: React.FC<Props> = ({
           fontSize={20}
           color='var(--adm-color-primary)'
           onClick={() => {
-            handleRowPopup('ADD')
+            handleRowPopup('Add')
           }}
         />
       </div>
@@ -240,7 +240,7 @@ const TableCard: React.FC<Props> = ({
                   <td>{row.expectedPrice}</td>
                   <td>{<div className='action'>
                     <a onClick={() => {
-                      handleRowPopup('EDIT', row);
+                      handleRowPopup('Edit', row);
                     }}>{t('Edit')}</a>
                     <a style={{ color: '#FF0000' }} onClick={() => {
                       handleRowPopup('DELETE', row);
