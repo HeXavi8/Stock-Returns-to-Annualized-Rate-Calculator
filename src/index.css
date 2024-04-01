@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* PC Style */
+@media (min-width: 768px) {
+  body {
+      width: 450px;
+      margin: 10px auto;
+      border: 2px solid var(--adm-color-border);
+      border-radius: 10px;
+  }
+}
+
+/* Mobile Style */
+@media (max-width: 767px) {
+  body {
+      width: 100%;
+  }
+}
