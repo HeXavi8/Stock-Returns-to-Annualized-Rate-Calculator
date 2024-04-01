@@ -21,5 +21,7 @@
 	"Stock": "股票",
 	"Platform Fee": "平台费用",
 	"Confirm to delete": "确定删除",
-	"No Data": "暂无数据"
+	"No Data": "暂无数据",
+	"Submit": "提交",
+	"Cancel": "取消"
 }

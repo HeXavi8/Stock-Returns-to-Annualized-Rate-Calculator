@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import moment from 'moment-timezone';
 import { v4 as uuidv4 } from 'uuid';
 import type { DatePickerRef } from 'antd-mobile/es/components/date-picker'
-import './index.scss'; // 导入样式文件
+import './index.scss';
 import calculator from '../libs/calculator';
 
 const dateFormat = 'YYYY-MM-DD';
@@ -81,7 +81,7 @@ const TableCard: React.FC<Props> = ({
         break;
       }
       case 'Edit': {
-        const editData = {...defaultData, ...data};
+        const editData = { ...defaultData, ...data };
         delete editData.expectedPrice;
         editData.purchaseTime = new Date(String(editData.purchaseTime));
         form.setFieldsValue(editData);
@@ -146,7 +146,7 @@ const TableCard: React.FC<Props> = ({
           ...dataList[index],
           ...values,
           purchaseTime: moment(values.purchaseTime).format(dateFormat),
-           // @ts-ignore
+          // @ts-ignore
           expectedPrice: calculator({
             type: ID,
             startDate: moment(values.purchaseTime).format(dateFormat),
@@ -166,7 +166,7 @@ const TableCard: React.FC<Props> = ({
     setRowPopupData(defaultData);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const calculatedList = dataList.map(item => ({
       ...item,
       // @ts-ignore
@@ -200,7 +200,7 @@ const TableCard: React.FC<Props> = ({
           }}
         />
       </div>
-       }>
+      }>
       {dataList.length > 0 ? <div className="table-container">
         <div className="fixed-column">
           <table>
@@ -269,10 +269,10 @@ const TableCard: React.FC<Props> = ({
           footer={
             <div className='popup-button'>
               <Button block type='submit' color='primary' size='middle'>
-                提交
+                {t('Submit')}
               </Button>
               <Button block color='default' size='middle' onClick={onRowDataClose}>
-                取消
+                {t('Cancel')}
               </Button>
             </div>
           }
@@ -288,7 +288,7 @@ const TableCard: React.FC<Props> = ({
           <Form.Item
             name='costPrice'
             label={`${t('Cost Price')} (${currencyUnitMap[ID]})`}
-            rules={[{ required: true,  message: `${t('Please Enter')}${t('Cost Price')}` }]}
+            rules={[{ required: true, message: `${t('Please Enter')}${t('Cost Price')}` }]}
           >
             <Stepper min={0} digits={3} step={0.001} max={1000000} style={{ '--height': '36px', width: '100%' }} />
           </Form.Item>
