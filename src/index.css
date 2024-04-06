@@ -15,16 +15,36 @@ code {
 /* PC Style */
 @media (min-width: 768px) {
   body {
-      width: 450px;
-      margin: 10px auto;
-      border: 2px solid var(--adm-color-border);
-      border-radius: 10px;
+    width: 450px;
+    margin: 10px auto;
+    border: 2px solid var(--adm-color-border);
+    border-radius: 10px;
+  }
+
+  .tab-bar {
+    z-index: 2;
+    position: absolute;
+    bottom: 47px;
+    width: 450px;
+    height: 60px;
+    border-radius: 0px 0px 10px 10px;
+    border-top: 2px solid var(--adm-color-border);
   }
 }
 
 /* Mobile Style */
 @media (max-width: 767px) {
   body {
-      width: 100%;
+    width: 100%;
+  }
+
+  .tab-bar {
+    z-index: 2;
+    position: fixed;
+    bottom: -1px;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    border-top: 2px solid var(--adm-color-border);
   }
 }

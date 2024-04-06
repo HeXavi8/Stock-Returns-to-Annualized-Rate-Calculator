@@ -1,40 +1,41 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { NavBar, SafeArea, Slider, setDefaultConfig, CalendarPicker, Form } from "antd-mobile";
+import { NavBar, SafeArea, setDefaultConfig, TabBar } from "antd-mobile";
+import { CalculatorOutline, FileOutline } from 'antd-mobile-icons'
 import { useTranslation } from "react-i18next";
 import zhCN from 'antd-mobile/es/locales/zh-CN'
 import enUS from 'antd-mobile/es/locales/en-US'
 import moment from 'moment-timezone';
-import { debounce } from 'lodash';
 import darkLanguageIcon from './images/dark-language-icon.svg';
 import lightLanguageIcon from './images/light-language-icon.svg';
 import darkModeIcon from './images/dark-mode.svg';
 import lightModeIcon from './images/light-mode.svg';
 import "./style/index.scss";
-import TableCard from "./components/tableCard";
-const dateFormat = 'YYYY-MM-DD';
+import Calculator from './pages/calculator';
+import Links from './pages/links';
 const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 moment.tz.setDefault(userTimezone);
 
-// get expected rate
-const ExpectedRate = localStorage.getItem('Expected-Rate');
 // get language mode
 const Language = localStorage.getItem('Language');
 
 function App() {
   const { t, i18n } = useTranslation();
-  const [languageMode, setLanguageMode] = useState<string>(Language || 'zh');
-  const [enableDarkMode, setEnableDarkMode] = useState<boolean>(false)
-  // expected annualized rate of return
-  const [expectedRate, setExpectedRate] = useState<number>(ExpectedRate ? parseInt(ExpectedRate, 10) : 0);
-  // date
-  const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false)
-  const [date, setDate] = useState<string>(moment().format(dateFormat))
+  const tabs = [
+    {
+      key: 'calculator',
+      title: t('Calculator'),
+      icon: <CalculatorOutline />,
+    },
+    {
+      key: 'links',
+      title: t('Links'),
+      icon: <FileOutline />,
+    },
+  ]
 
-  // set expected rate
-  const setExpectedRateByDebounce = debounce((value) => {
-    setExpectedRate(value);
-    localStorage.setItem('Expected-Rate', String(value))
-  }, 300);
+  const [languageMode, setLanguageMode] = useState<string>(Language || 'zh');
+  const [enableDarkMode, setEnableDarkMode] = useState<boolean>(false);
+  const [activeKey, setActiveKey] = useState<string>('calculator');
 
   // switch languageMode
   const changeLanguage = () => {
@@ -47,11 +48,11 @@ function App() {
     localStorage.setItem('Language', lang);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (languageMode) {
       i18n.changeLanguage(languageMode);
       setDefaultConfig({
-        locale: languageMode === 'zh' ?  zhCN : enUS,
+        locale: languageMode === 'zh' ? zhCN : enUS,
       })
     }
   }, [])
@@ -64,7 +65,7 @@ function App() {
   }, [enableDarkMode])
 
   return (
-    <div className="app">
+    <div className={`app ${enableDarkMode ? 'dark' : 'light'}`}>
       <div>
         <SafeArea position="top" />
       </div>
@@ -87,38 +88,14 @@ function App() {
         </div>
       </NavBar>
       <div className="body">
-        <Form>
-          <Form.Item label={`${t('Expected Date')}`} trigger='onConfirm' arrow={true} onClick={() => {
-            setDatePickerVisible(true)
-          }}>
-            <CalendarPicker
-              min={new Date()}
-              max={new Date(new Date().setFullYear(new Date().getFullYear() + 2))}
-              visible={datePickerVisible}
-              selectionMode='single'
-              defaultValue={new Date(date)}
-              onClose={() => setDatePickerVisible(false)}
-              onMaskClick={() => setDatePickerVisible(false)}
-              onConfirm={val => {
-                setDate(moment(val).format(dateFormat));
-              }}
-            />
-            {date}
-          </Form.Item>
-          <Form.Item label={`${t('Expected Annualized Rate of Return')}: ${expectedRate}%`}>
-            <Slider popover step={0.1} max={100} min={0}
-              defaultValue={expectedRate}
-              onChange={v => {
-                const value = typeof v === 'number' ? v : 0;
-                setExpectedRateByDebounce(value);
-              }}
-            />
-          </Form.Item>
-        </Form>
-        <TableCard title={`🇨🇳 ${t("A Share")}`} ID={"CHN"} expectedDate={date} expectedRate={expectedRate}></TableCard>
-        <TableCard title={`🇺🇸 ${t("US Stock")}`} ID={"US"} expectedDate={date} expectedRate={expectedRate}></TableCard>
-        <TableCard title={`🇭🇰 ${t("Hong Kong Stock")}`} ID={"HK"} expectedDate={date} expectedRate={expectedRate}></TableCard>
+        {activeKey === 'calculator' ? <Calculator /> : <></>}
+        {activeKey === 'links' ? <Links /> : <></>}
       </div>
+      <TabBar className="tab-bar" activeKey={activeKey} onChange={value => setActiveKey(value)}>
+        {tabs.map(item => (
+          <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+        ))}
+      </TabBar>
       <div>
         <SafeArea position='bottom' />
       </div>

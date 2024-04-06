@@ -1,5 +1,5 @@
 .card {
-  border: solid 0.5px var(--adm-color-border);
+  border: solid 1px var(--adm-color-border);
   margin: 20px 0px;
 
   .card-title-right {
@@ -28,7 +28,8 @@
     width: 100%;
   }
 
-  th, td {
+  th,
+  td {
     height: 40px;
     text-align: left;
     padding: 8px;
@@ -50,6 +51,7 @@
     flex-wrap: nowrap;
     gap: 8px;
     white-space: nowrap;
+
     a {
       font-weight: bold;
     }
@@ -79,4 +81,3 @@
   flex-direction: column;
   gap: 8px;
 }
-
