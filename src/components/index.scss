@@ -40,6 +40,12 @@
     white-space: nowrap;
   }
 
+  .table-title {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
   td {
     // font-size: 14px;
     white-space: nowrap;

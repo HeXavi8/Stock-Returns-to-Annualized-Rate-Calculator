@@ -1,6 +1,6 @@
 import React, { useState, RefObject, useEffect } from 'react';
-import { AddCircleOutline, MailOpenOutline, TextOutline } from 'antd-mobile-icons'
-import { Card, Form, Popup, Button, Input, Stepper, DatePicker, Empty, Dialog } from 'antd-mobile'
+import { AddCircleOutline, MailOpenOutline, ExclamationCircleOutline } from 'antd-mobile-icons'
+import { Card, Form, Popup, Button, Input, Stepper, DatePicker, Empty, Dialog, Popover } from 'antd-mobile'
 import { useTranslation } from "react-i18next";
 import moment from 'moment-timezone';
 import { v4 as uuidv4 } from 'uuid';
@@ -70,6 +70,8 @@ const TableCard: React.FC<Props> = ({
   const [form] = Form.useForm()
   // tips popup layer
   const [tipsPopupVisible, setTipsPopupVisible] = useState<boolean>(false);
+  // popover
+  const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
 
   const handleRowPopup = async (type: string, data?: DataRow) => {
     switch (type) {
@@ -226,7 +228,20 @@ const TableCard: React.FC<Props> = ({
                 <th>{t('Quantity')}</th>
                 <th>{t('Purchase Time')}</th>
                 <th>{t('Platform Fee')}</th>
-                <th>{t('Expected Price')}</th>
+                <th>
+                  <div className='table-title'>
+                    {t('Expected Price')}
+                    <Popover
+                      content={t('The stock price needed to be sold to meet the target annualized rate of return')}
+                      trigger='click'
+                      placement='top'
+                      mode='dark'
+                      defaultVisible={false}
+                      >
+                        <ExclamationCircleOutline />
+                    </Popover>
+                  </div>
+                </th>
                 <th>{t('Action')}</th>
               </tr>
             </thead>

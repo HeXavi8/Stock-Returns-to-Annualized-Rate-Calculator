@@ -83,7 +83,7 @@ export default function Links() {
       links.map((item, key) => {
         return <List mode="card" header={item.header} key={key} className="link-list-card">
           {item.data.map((i, k) => {
-            return <List.Item onClick={() => { handleClick(i.link || '') }}>{i.name}</List.Item>
+            return <List.Item key={k} onClick={() => { handleClick(i.link || '') }}>{i.name}</List.Item>
           })}
         </List>;
       })
