@@ -19,9 +19,14 @@ code {
     margin: 10px auto;
     border: 2px solid var(--adm-color-border);
     border-radius: 10px;
-    .content {
-      margin-bottom: 80px;
-    }
+  }
+
+  .body {
+    height: calc(100vh - 200px);
+  }
+
+  .content {
+    margin-bottom: 80px;
   }
 
   .tab-bar {
@@ -39,9 +44,14 @@ code {
 @media (max-width: 767px) {
   body {
     width: 100%;
-    .content {
-      margin-bottom: 20px;
-    }
+  }
+
+  .body {
+    height: calc(100vh - 140px);
+  }
+
+  .content {
+    margin-bottom: 20px;
   }
 
   .tab-bar {

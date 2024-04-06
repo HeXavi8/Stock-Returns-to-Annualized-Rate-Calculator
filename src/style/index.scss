@@ -1,4 +1,5 @@
 .app {
+    height: calc(100vh - 58px);
     .navigator {
         height: 60px;
         border-bottom: solid 2px var(--adm-border-color);
@@ -37,7 +38,6 @@
     }
 
     .body {
-        height: calc(100vh - 140px);
         padding: 20px 20px 0px 20px;
         overflow-y: scroll;
         overflow-x: hidden;
