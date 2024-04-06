@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { NavBar, SafeArea, setDefaultConfig, TabBar } from "antd-mobile";
+import { NavBar, SafeArea, setDefaultConfig, TabBar, Footer } from "antd-mobile";
 import { CalculatorOutline, FileOutline } from 'antd-mobile-icons'
 import { useTranslation } from "react-i18next";
 import zhCN from 'antd-mobile/es/locales/zh-CN'
@@ -65,41 +65,49 @@ function App() {
   }, [enableDarkMode])
 
   return (
-    <div className={`app ${enableDarkMode ? 'dark' : 'light'}`}>
-      <div>
-        <SafeArea position="top" />
-      </div>
-      <NavBar className="navigator"
-        back={null}
-        right={<div className="title-right">
-          <div className="button" onClick={changeLanguage}>
-            <img src={enableDarkMode ? darkLanguageIcon : lightLanguageIcon} />
-          </div>
-          <div className="button" onClick={() => {
-            setEnableDarkMode(!enableDarkMode)
-          }}>
-            <img src={enableDarkMode ? darkModeIcon : lightModeIcon} />
-          </div>
-        </div>
-        }>
+    <>
+      <div className={`app ${enableDarkMode ? 'dark' : 'light'}`}>
         <div>
-          <div className="title">{t("Title")}</div>
-          <div className='subtitle'>{t("Subtitle")}</div>
+          <SafeArea position="top" />
         </div>
-      </NavBar>
-      <div className="body">
-        {activeKey === 'calculator' ? <Calculator /> : <></>}
-        {activeKey === 'links' ? <Links /> : <></>}
+        <NavBar className="navigator"
+          back={null}
+          right={<div className="title-right">
+            <div className="button" onClick={changeLanguage}>
+              <img src={enableDarkMode ? darkLanguageIcon : lightLanguageIcon} />
+            </div>
+            <div className="button" onClick={() => {
+              setEnableDarkMode(!enableDarkMode)
+            }}>
+              <img src={enableDarkMode ? darkModeIcon : lightModeIcon} />
+            </div>
+          </div>
+          }>
+          <div>
+            <div className="title">{t("Title")}</div>
+            <div className='subtitle'>{t("Subtitle")}</div>
+          </div>
+        </NavBar>
+        <div className="body">
+          {activeKey === 'calculator' ? <Calculator /> : <></>}
+          {activeKey === 'links' ? <Links /> : <></>}
+          <Footer content={
+            <p className="footer">
+          	  <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span></span>
+				      <span id="busuanzi_container_site_uv">UV: <span id="busuanzi_value_site_uv"></span></span>
+            </p>
+          }></Footer>
+        </div>
+        <TabBar className="tab-bar" activeKey={activeKey} onChange={value => setActiveKey(value)}>
+          {tabs.map(item => (
+            <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+          ))}
+        </TabBar>
+        <div>
+          <SafeArea position='bottom' />
+        </div>
       </div>
-      <TabBar className="tab-bar" activeKey={activeKey} onChange={value => setActiveKey(value)}>
-        {tabs.map(item => (
-          <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
-        ))}
-      </TabBar>
-      <div>
-        <SafeArea position='bottom' />
-      </div>
-    </div>
+    </>
   );
 }
 
