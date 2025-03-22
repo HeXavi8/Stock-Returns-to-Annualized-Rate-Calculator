@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.11e627fd.css",
-    "main.js": "/static/js/main.d6a76516.js",
-    "static/js/453.50a83da2.chunk.js": "/static/js/453.50a83da2.chunk.js",
-    "static/media/light-mode.svg": "/static/media/light-mode.8339a0622f5a9d9583079309eb8ccd1c.svg",
-    "static/media/dark-language-icon.svg": "/static/media/dark-language-icon.bb689f6172a99ae1ea90335ac389af09.svg",
-    "static/media/light-language-icon.svg": "/static/media/light-language-icon.81f41b258f4f8ed638afe6e61dcfde34.svg",
-    "index.html": "/index.html",
-    "static/media/dark-mode.svg": "/static/media/dark-mode.42bbf975dc15987ec22d320f18ffd8bb.svg",
-    "main.11e627fd.css.map": "/static/css/main.11e627fd.css.map",
-    "main.d6a76516.js.map": "/static/js/main.d6a76516.js.map",
-    "453.50a83da2.chunk.js.map": "/static/js/453.50a83da2.chunk.js.map"
+    "main.css": "/Stock-Returns-to-Annualized-Rate-Calculator/static/css/main.11e627fd.css",
+    "main.js": "/Stock-Returns-to-Annualized-Rate-Calculator/static/js/main.f0655900.js",
+    "static/js/453.50a83da2.chunk.js": "/Stock-Returns-to-Annualized-Rate-Calculator/static/js/453.50a83da2.chunk.js",
+    "static/media/light-mode.svg": "/Stock-Returns-to-Annualized-Rate-Calculator/static/media/light-mode.8339a0622f5a9d9583079309eb8ccd1c.svg",
+    "static/media/dark-language-icon.svg": "/Stock-Returns-to-Annualized-Rate-Calculator/static/media/dark-language-icon.bb689f6172a99ae1ea90335ac389af09.svg",
+    "static/media/light-language-icon.svg": "/Stock-Returns-to-Annualized-Rate-Calculator/static/media/light-language-icon.81f41b258f4f8ed638afe6e61dcfde34.svg",
+    "index.html": "/Stock-Returns-to-Annualized-Rate-Calculator/index.html",
+    "static/media/dark-mode.svg": "/Stock-Returns-to-Annualized-Rate-Calculator/static/media/dark-mode.42bbf975dc15987ec22d320f18ffd8bb.svg",
+    "main.11e627fd.css.map": "/Stock-Returns-to-Annualized-Rate-Calculator/static/css/main.11e627fd.css.map",
+    "main.f0655900.js.map": "/Stock-Returns-to-Annualized-Rate-Calculator/static/js/main.f0655900.js.map",
+    "453.50a83da2.chunk.js.map": "/Stock-Returns-to-Annualized-Rate-Calculator/static/js/453.50a83da2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.11e627fd.css",
-    "static/js/main.d6a76516.js"
+    "static/js/main.f0655900.js"
   ]
 }
